@@ -1,0 +1,15 @@
+organise files into folders
+
+fix makefile to compile and link in subdirectories
+
+add mouse handling - click to add ball
+
+add color selection
+
+add interactions between balls
+
+add optional boundary or toroid
+
+pan and zoom camera
+    read standard sfml tutorial
+    write code
