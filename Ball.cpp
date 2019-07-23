@@ -19,7 +19,6 @@ namespace Entities
     {
         m_velocity = sf::Vector2<double>(Random::randomDouble()-0.5,Random::randomDouble()-0.5);
         color = Random::randomColor();
-        // std::cout << "New ball!" << std::endl;
     }
 
     void Ball::input  (const sf::Event& e)
@@ -30,19 +29,39 @@ namespace Entities
     }
     void Ball::update (float dt)
     {   
+        if (m_position.x < 0)
+            m_velocity.x -= m_position.x;
+        if (m_position.y < 0)
+            m_velocity.y -= m_position.y;
+        if (m_position.x > Display::WIDTH)
+            m_velocity.x -= m_position.x - Display::WIDTH;
+        if (m_position.y > Display::HEIGHT)
+            m_velocity.y -= m_position.y - Display::HEIGHT;
+
         for(int i = 0; i < m_state->positions.size(); i++)
         {
-            // double distance = Maths::distance(m_state->xs[i], m_state->ys[i], m_position);
-            // Maths::normalise(m_state->xs[i]-posX, m_state->ys[i]-posY);
+            // std::cout << Maths::distance(m_state->positions[i], m_position)<<std::endl;
+            m_velocity += Maths::getForce(m_state->positions[i], m_position, BALL_RADIUS*5);
         }
 
         m_position += m_velocity;
+        m_velocity *= 0.99;
     }
     void Ball::draw   ()
     {
         sf::CircleShape circle(BALL_RADIUS);
         circle.setFillColor(color);
-        circle.setPosition(m_position.x, m_position.y);
+        circle.setPosition(m_position.x-BALL_RADIUS, m_position.y-BALL_RADIUS);
         Display::draw(circle);
+
+        if (m_state->debugShowVelocity)
+        {
+            sf::VertexArray line(sf::LinesStrip, 2);
+            line[0] = sf::Vertex(sf::Vector2f(m_position));
+            line[0].color  = sf::Color::Red;
+            line[1] = sf::Vertex(sf::Vector2f(m_position) + sf::operator*(sf::Vector2f(m_velocity), 20.f));
+            line[1].color  = sf::Color::Red;
+            Display::draw(line);
+        }
     }
 }

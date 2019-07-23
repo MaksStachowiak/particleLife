@@ -16,7 +16,7 @@ namespace State
     // ,   m_world     (m_player)
     {
         std::cout<<"Now playing"<<std::endl;
-        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
+        // m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
     }
 
     void Playing::input(const sf::Event& e)
@@ -35,6 +35,10 @@ namespace State
             {
                 std::cout << m_entities.size() << std::endl;
             }
+            if (e.key.code == sf::Keyboard::F4)
+            {
+                debugShowVelocity = !debugShowVelocity;
+            }
         }
 
         m_p_application->debugInput(e);
@@ -51,7 +55,7 @@ namespace State
 
     void Playing::update(float dt)
     {
-        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
+        // m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
 
         for(auto const& entity: m_entities)
             entity->update(dt);

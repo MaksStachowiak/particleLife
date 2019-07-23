@@ -21,9 +21,12 @@ namespace State
             std::vector<sf::Vector2<double>> positions;
             std::vector<int> species;
 
+            bool debugShowVelocity;
+
         private:
             void addBall(double, double);
 
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
+            
     };
 }
