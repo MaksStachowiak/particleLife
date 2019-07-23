@@ -24,4 +24,9 @@ namespace Random
             x = 1 + std::rand()/((RAND_MAX + 1u)/255);
         return x;
     }
+
+    sf::Color randomColor()
+    {
+        return sf::Color(random255(),random255(),random255());
+    }
 }

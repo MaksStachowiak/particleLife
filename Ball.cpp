@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "Display.h"
+#include "Random.h"
 
 #include <iostream>
 
@@ -12,6 +13,7 @@ namespace Entities
     , posX (x)
     , posY (y)
     {
+        color = Random::randomColor();
         std::cout << "New ball!" << std::endl;
     }
 
@@ -24,7 +26,7 @@ namespace Entities
     void Ball::draw   ()
     {
         sf::CircleShape circle(BALL_RADIUS);
-        circle.setFillColor(sf::Color(100, 250, 50));
+        circle.setFillColor(color);
         circle.setPosition(posX, posY);
         Display::draw(circle);
     }

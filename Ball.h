@@ -16,6 +16,6 @@ namespace Entities
             void draw   ();
         private:
             double posX, posY;
-            sf::Color color();
+            sf::Color color;
     };
 }
