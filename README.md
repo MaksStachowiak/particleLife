@@ -8,11 +8,11 @@ Structure based on https://github.com/Hopson97/Hero
 Uses gcc-17 and SFML
 
 How to run it:
-
-/# install sfml
+```console
+# install sfml
 sudo apt-get install libsfml-dev
 
-/# compile, link and run
+# compile, link and run
 make
-
+```
 afterwards you can use ./sfml-app
