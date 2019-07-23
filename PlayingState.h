@@ -19,5 +19,7 @@ namespace State
 
         private:
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
+            void addBall(int, int);
+            bool debugMousePos;
     };
 }

@@ -9,6 +9,8 @@
 // #include "Resource_Managers/Resource_Holder.h"
 #include "StateBase.h"
 
+const float BALL_RADIUS = 10.f; 
+
 class Application
 {
     public:

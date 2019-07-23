@@ -7,9 +7,13 @@
 
 namespace Entities
 {
-    Ball::Ball()
+    Ball::Ball(int x, int y)
     : Entity()
-    { std::cout << "New ball!" << std::endl; }
+    , posX (x)
+    , posY (y)
+    {
+        std::cout << "New ball!" << std::endl;
+    }
 
     void Ball::input  (const sf::Event& e)
     { }
@@ -18,5 +22,10 @@ namespace Entities
     void Ball::update (float dt)
     { }
     void Ball::draw   ()
-    { }
+    {
+        sf::CircleShape circle(BALL_RADIUS);
+        circle.setFillColor(sf::Color(100, 250, 50));
+        circle.setPosition(posX, posY);
+        Display::draw(circle);
+    }
 }

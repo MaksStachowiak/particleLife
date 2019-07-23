@@ -3,10 +3,8 @@
 #include <iostream>
 
 #include "Display.h"
-// #include "Util/Random.h"
 
 #include "PlayingState.h"
-// #include "States/Splash_Screen.h"
 
 // #include "Game/Equipment/Equipment_Data.h"
 
@@ -34,7 +32,7 @@ namespace
 
 Application::Application()
 {
-    Display ::init      ("Taskforce 0.1");
+    Display ::init      ("particleLife 0.1");
     // Random  ::init      ();
 
     // m_music.setLoop(true);

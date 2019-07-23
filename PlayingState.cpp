@@ -12,22 +12,28 @@
 namespace State
 {
     Playing::Playing(Application& application)
-    :   StateBase  (application)
+    : StateBase     (application)
+    , debugMousePos (false)
     // ,   m_world     (m_player)
     {
         std::cout<<"Now playing"<<std::endl;
-        m_entities.push_back(std::move(std::make_unique<Entities::Ball>()));
+        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(500, 300)));
     }
 
     void Playing::input(const sf::Event& e)
     {
         if (e.type == sf::Event::MouseButtonPressed)
         {
-            if (e.mouseButton.button == sf::Mouse::Right)
+            if (e.mouseButton.button == sf::Mouse::Left)
             {
-                std::cout << "the right button was pressed" << std::endl;
-                std::cout << "mouse x: " << e.mouseButton.x << std::endl;
-                std::cout << "mouse y: " << e.mouseButton.y << std::endl;
+                addBall(e.mouseButton.x - BALL_RADIUS, e.mouseButton.y - BALL_RADIUS);
+            }
+        }
+        if (e.type == sf::Event::KeyReleased)
+        {
+            if (e.key.code == sf::Keyboard::F1)
+            {
+                debugMousePos = !debugMousePos;
             }
         }
     }
@@ -39,15 +45,17 @@ namespace State
 
     void Playing::update(float dt)
     {
+        if (debugMousePos)
+        {
+            std::cout << " X: " << sf::Mouse::getPosition(Display::get()).x
+                      << " Y: " << sf::Mouse::getPosition(Display::get()).y
+                      << std::endl;
+        }
+
         for(auto const& entity: m_entities) 
         {
             entity->update(dt);
         }
-   
-        // std::cout << " X: " << sf::Mouse::getPosition(Display::get()).x
-        //           << " Y: " << sf::Mouse::getPosition(Display::get()).y
-        //           << std::endl;
-
         
 
         // m_notice.update();
@@ -87,6 +95,11 @@ namespace State
 //                 break;
 //         }
 //         m_notice.draw();
+    }
+
+    void Playing::addBall(int x, int y)
+    {
+        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(x, y)));
     }
 
 
