@@ -2,7 +2,7 @@ all: compile link run
 
 compile:
 	@echo "Compiling..."
-	@g++ -c *.cpp -std=c++17 #-E -IState -IEntities
+	@g++ -c *.cpp -std=c++17
 
 link:
 	@echo "Linking..."
