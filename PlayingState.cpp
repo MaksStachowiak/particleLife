@@ -16,7 +16,7 @@ namespace State
     // ,   m_world     (m_player)
     {
         std::cout<<"Now playing"<<std::endl;
-        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(500, 300)));
+        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
     }
 
     void Playing::input(const sf::Event& e)
@@ -31,9 +31,9 @@ namespace State
         }
         if (e.type == sf::Event::KeyReleased)
         {
-            if (e.key.code == sf::Keyboard::A)
+            if (e.key.code == sf::Keyboard::F3)
             {
-                std::cout << "A" << std::endl;
+                std::cout << m_entities.size() << std::endl;
             }
         }
 
@@ -42,16 +42,19 @@ namespace State
 
     void Playing::input()
     {
-//         m_world.input();
+        positions.clear();
+        species.clear();
+
+        for(auto const& entity: m_entities)
+            entity->input();
     }
 
     void Playing::update(float dt)
     {
-        for(auto const& entity: m_entities) 
-        {
+        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
+
+        for(auto const& entity: m_entities)
             entity->update(dt);
-        }
-        
 
         // m_notice.update();
 
@@ -93,9 +96,14 @@ namespace State
 
     void Playing::addBall(double x, double y)
     {
-        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(x, y)));
+        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
     }
 
+    void Playing::noticeBall(sf::Vector2<double> position, int spec)
+    {
+        positions.push_back(position);
+        species.push_back(spec);
+    }
 
 //     void Playing::roamUpdate(float dt)
 //     {

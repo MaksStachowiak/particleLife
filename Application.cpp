@@ -55,7 +55,7 @@ void Application::runMainLoop()
     {
         auto dt = c.restart().asSeconds();
 
-        Display::clear({50, 50, 100});
+        Display::clear({0, 0, 0});
         
         m_states.top()->input   ();
         m_states.top()->update  (dt);
