@@ -7,7 +7,7 @@
 
 namespace Entities
 {
-    Ball::Ball(int x, int y)
+    Ball::Ball(double x, double y)
     : Entity()
     , posX (x)
     , posY (y)

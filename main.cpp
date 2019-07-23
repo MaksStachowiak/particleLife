@@ -4,12 +4,15 @@
 #include <iostream>
 #include <string>
 
-// not sure if needed
-template<typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args) {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+void errorMessage(const std::string& message, const std::string& error)
+{
+    #ifdef __WIN32
+        MessageBox(nullptr, message.c_str(), "Error!", MB_OK);
+    #else
+        std::cerr << error;
+        std::cin.ignore();
+    #endif // __WIN32
 }
-// end
 
 int main() try
 {
@@ -20,11 +23,11 @@ int main() try
 }
 catch (std::exception& e)
 {
-    // errorMessage(e.what(), "Error! Message: " + std::string(e.what()) + "\nPress enter to exit.\n");
+    errorMessage(e.what(), "Error! Message: " + std::string(e.what()) + "\nPress enter to exit.\n");
     return EXIT_FAILURE;
 }
 catch(...)
 {
-    // errorMessage("Unrecognised exception type.", "Error: Unrecognised exception type.\nPress enter to exit.\n");
+    errorMessage("Unrecognised exception type.", "Error: Unrecognised exception type.\nPress enter to exit.\n");
     return EXIT_FAILURE;
 }

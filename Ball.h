@@ -8,13 +8,14 @@ namespace Entities
     class Ball : public Entity
     {
         public:
-            Ball(int, int);
+            Ball(double, double);
 
             void input  (const sf::Event& e);
             void input  ();
             void update (float dt);
             void draw   ();
         private:
-            int posX, posY;
+            double posX, posY;
+            sf::Color color();
     };
 }

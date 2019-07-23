@@ -13,7 +13,6 @@ namespace State
 {
     Playing::Playing(Application& application)
     : StateBase     (application)
-    , debugMousePos (false)
     // ,   m_world     (m_player)
     {
         std::cout<<"Now playing"<<std::endl;
@@ -26,16 +25,19 @@ namespace State
         {
             if (e.mouseButton.button == sf::Mouse::Left)
             {
-                addBall(e.mouseButton.x - BALL_RADIUS, e.mouseButton.y - BALL_RADIUS);
+                addBall( static_cast <double> (e.mouseButton.x - BALL_RADIUS),
+                         static_cast <double> (e.mouseButton.y - BALL_RADIUS) );
             }
         }
         if (e.type == sf::Event::KeyReleased)
         {
-            if (e.key.code == sf::Keyboard::F1)
+            if (e.key.code == sf::Keyboard::A)
             {
-                debugMousePos = !debugMousePos;
+                std::cout << "A" << std::endl;
             }
         }
+
+        m_p_application->debugInput(e);
     }
 
     void Playing::input()
@@ -45,13 +47,6 @@ namespace State
 
     void Playing::update(float dt)
     {
-        if (debugMousePos)
-        {
-            std::cout << " X: " << sf::Mouse::getPosition(Display::get()).x
-                      << " Y: " << sf::Mouse::getPosition(Display::get()).y
-                      << std::endl;
-        }
-
         for(auto const& entity: m_entities) 
         {
             entity->update(dt);
@@ -79,7 +74,6 @@ namespace State
 
     void Playing::draw()
     {
-        Display::clear();
         for(auto const& entity: m_entities)
         {
             entity->draw();
@@ -97,7 +91,7 @@ namespace State
 //         m_notice.draw();
     }
 
-    void Playing::addBall(int x, int y)
+    void Playing::addBall(double x, double y)
     {
         m_entities.push_back(std::move(std::make_unique<Entities::Ball>(x, y)));
     }

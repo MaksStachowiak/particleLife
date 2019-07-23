@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Display.h"
+#include "Random.h"
 
 #include "PlayingState.h"
 
@@ -10,7 +11,7 @@
 
 namespace
 {
-    void calculateFPS()
+    void calculateFPS(bool debugFPS)
     {
         static sf::Clock timer;
         static sf::Clock printTimer;
@@ -22,7 +23,8 @@ namespace
         {
             auto fps = (float)numFrames / timer.getElapsedTime().asSeconds();
             printTimer.restart();
-            std::cout << fps << std::endl;
+            if (debugFPS)
+                std::cout << fps << std::endl;
 
             numFrames = 0;
             timer.restart();
@@ -31,9 +33,11 @@ namespace
 }
 
 Application::Application()
+: debugMousePos (false)
+, debugFPS      (false)
 {
-    Display ::init      ("particleLife 0.1");
-    // Random  ::init      ();
+    Display ::init  ("particleLife 0.1");
+    Random  ::init  ();
 
     // m_music.setLoop(true);
     // m_music.openFromFile("Res/Music/cs8b.ogg");
@@ -52,16 +56,43 @@ void Application::runMainLoop()
         auto dt = c.restart().asSeconds();
 
         Display::clear({50, 50, 100});
-
+        
         m_states.top()->input   ();
         m_states.top()->update  (dt);
         m_states.top()->draw    ();
 
         Display::update         ();
-        calculateFPS            ();
+        calculateFPS            (debugFPS);
 
         Display::pollEvents(*m_states.top());
+
+        debugUpdate();
     }
+}
+
+void Application::debugInput(const sf::Event& e)
+{
+    if (e.type == sf::Event::KeyReleased)
+    {
+        if (e.key.code == sf::Keyboard::F1)
+        {
+            debugMousePos = !debugMousePos;
+        }
+        if (e.key.code == sf::Keyboard::F2)
+        {
+            debugFPS = !debugFPS;
+        }
+    }
+}
+
+void Application::debugUpdate()
+{
+    if (debugMousePos)
+        {
+            std::cout << " X: " << sf::Mouse::getPosition(Display::get()).x
+                      << " Y: " << sf::Mouse::getPosition(Display::get()).y
+                      << std::endl;
+        }
 }
 
 void Application::pushState(std::unique_ptr<State::StateBase> state)
