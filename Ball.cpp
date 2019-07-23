@@ -45,7 +45,7 @@ namespace Entities
         }
 
         m_position += m_velocity;
-        m_velocity *= 0.99;
+        // m_velocity *= 0.99;
     }
     void Ball::draw   ()
     {

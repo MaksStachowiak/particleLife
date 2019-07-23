@@ -3,6 +3,7 @@
 // #include "../Resource_Managers/Resource_Manager.h"
 #include "Application.h"
 #include "Display.h"
+#include "Random.h"
 
 #include "Entity.h"
 #include "Ball.h"
@@ -16,7 +17,12 @@ namespace State
     // ,   m_world     (m_player)
     {
         std::cout<<"Now playing"<<std::endl;
-        // m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
+        for (int i = 0; i < 200; i++)
+        {
+            double x = Random::randomDouble() * Display::WIDTH;
+            double y = Random::randomDouble() * Display::HEIGHT;
+            m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
+        }
     }
 
     void Playing::input(const sf::Event& e)

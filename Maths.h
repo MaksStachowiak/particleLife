@@ -36,11 +36,11 @@ namespace Maths
             direction *= BALL_RADIUS/dist;
             return direction;
         }
-        else
-        {
-            direction *= -fabs(dist - maxAttractionPoint + 2*BALL_RADIUS)/10000;
-            return direction;
-        }
+        // else
+        // {
+        //     direction *= -fabs(dist - maxAttractionPoint + 2*BALL_RADIUS)/10000;
+        //     return direction;
+        // }
         return sf::Vector2<double>(0, 0);
     }
 }
