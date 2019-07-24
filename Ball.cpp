@@ -44,8 +44,8 @@ namespace Entities
         }
         dt *= 20;
         auto movement = m_velocity * dt;
+        m_velocity *= 0.985;
         m_position += movement;
-        // m_velocity *= 0.99;
     }
     void Ball::draw   ()
     {
@@ -65,13 +65,13 @@ namespace Entities
         }
         if (m_state->debugShowRadii)
         {
-            sf::CircleShape outline(30);
+            sf::CircleShape outline(BALL_RADIUS*8);
 
             // set a 10-pixel wide orange outline
             outline.setFillColor(sf::Color(0, 0, 0, 0));
             outline.setOutlineThickness(1);
             outline.setOutlineColor(sf::Color(150, 150, 150));
-            outline.setPosition(m_position.x-30, m_position.y-30);
+            outline.setPosition(m_position.x-BALL_RADIUS*8, m_position.y-BALL_RADIUS*8);
             Display::draw(outline);
         }
     }
