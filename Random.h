@@ -6,7 +6,8 @@ namespace Random
 {
     void init();
 
-    double    randomDouble();
-    int       random255();
-    sf::Color randomColor();
+    double    randomDouble  ();
+    int       random255     ();
+    sf::Color randomColor   ();
+    int randomRange         (int, int);
 }

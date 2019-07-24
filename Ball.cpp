@@ -24,11 +24,12 @@ namespace Entities
     void Ball::input  (const sf::Event& e)
     { }
     void Ball::input  ()
-    { 
+    {
         m_state->noticeBall(m_position, m_species);
     }
     void Ball::update (double dt)
     {   
+        // bounce back from edges of screen
         if (m_position.x < 0)
             m_velocity.x -= m_position.x;
         if (m_position.y < 0)
@@ -38,22 +39,27 @@ namespace Entities
         if (m_position.y > Display::HEIGHT)
             m_velocity.y -= m_position.y - Display::HEIGHT;
 
+        // calculate forces and update velocity
         for(int i = 0; i < m_state->ballPositions.size(); i++)
         {
             m_velocity += Physics::getForce(m_state->ballPositions[i], m_position);
         }
-        dt *= 20;
-        auto movement = m_velocity * dt;
-        m_velocity *= 0.985;
+        m_velocity *= 0.985; // friction
+
+        // update position
+        auto movement = m_velocity * (dt * 20);
         m_position += movement;
     }
+    
     void Ball::draw   ()
     {
+        // draw the ball
         sf::CircleShape circle(BALL_RADIUS);
         circle.setFillColor(color);
         circle.setPosition(m_position.x-BALL_RADIUS, m_position.y-BALL_RADIUS);
         Display::draw(circle);
 
+        // debug options
         if (m_state->debugShowVelocity)
         {
             sf::VertexArray line(sf::LinesStrip, 2);
@@ -63,11 +69,10 @@ namespace Entities
             line[1].color  = sf::Color::Red;
             Display::draw(line);
         }
+
         if (m_state->debugShowRadii)
         {
             sf::CircleShape outline(BALL_RADIUS*8);
-
-            // set a 10-pixel wide orange outline
             outline.setFillColor(sf::Color(0, 0, 0, 0));
             outline.setOutlineThickness(1);
             outline.setOutlineColor(sf::Color(150, 150, 150));

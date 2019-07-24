@@ -1,6 +1,5 @@
 #include "PlayingState.h"
 
-// #include "../Resource_Managers/Resource_Manager.h"
 #include "Application.h"
 #include "Display.h"
 #include "Random.h"
@@ -17,7 +16,6 @@ namespace State
     : StateBase     (application)
     , debugShowVelocity (false)
     , debugShowRadii    (false)
-    // ,   m_world     (m_player)
     {
         createSpecies(5);
         populate(500);
@@ -47,7 +45,7 @@ namespace State
             if (e.key.code == sf::Keyboard::F5)
             {
                 debugShowRadii = !debugShowRadii;
-                Physics::plot();
+                Physics::plot(); // for testing
             }
         }
 
@@ -67,24 +65,6 @@ namespace State
     {
         for(auto const& entity: m_entities)
             entity->update(dt);
-
-        // m_notice.update();
-
-        // switch(m_playerState)
-        // {
-        //     case Player_State::Roaming:
-        //         roamUpdate(dt);
-        //         break;
-
-        //     case Player_State::Zone_Switch:
-        //         zoneSwitchUpdate(dt);
-        //         break;
-        // }
-
-        // if (m_player.getLevel().hasLeveledUp())
-        // {
-        //     m_player.heal();
-        // }
     }
 
     void Playing::draw()
@@ -93,17 +73,6 @@ namespace State
         {
             entity->draw();
         }
-//         switch(m_playerState)
-//         {
-//             case Player_State::Roaming:
-//                 roamDraw();
-//                 break;
-
-//             case Player_State::Zone_Switch:
-//                 zoneSwitchDraw();
-//                 break;
-//         }
-//         m_notice.draw();
     }
 
     void Playing::addBall(double x, double y)
@@ -117,7 +86,7 @@ namespace State
         {
             double x = BALL_RADIUS + Random::randomDouble() * (Display::WIDTH - 2 * BALL_RADIUS);
             double y = BALL_RADIUS + Random::randomDouble() * (Display::HEIGHT - 2 * BALL_RADIUS);
-            m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
+            addBall(x, y);
         }
     }
 
@@ -129,47 +98,5 @@ namespace State
         ballPositions.push_back(position);
         ballSpecies.push_back(spec);
     }
-
-//     void Playing::roamUpdate(float dt)
-//     {
-//        m_world.update (m_notice, dt);
-
-//         if (m_player.getPosition().x >= Display::WIDTH  - 200 &&
-//             m_player.getPosition().y <= 200)
-//         {
-//             m_notice.setString("Press space to interact!");
-//             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-//             {
-//                 m_playerState = Player_State::Zone_Switch;
-//                 m_mapGUI.resetBool();
-//             }
-//         }
-//     }
-
-//     void Playing::roamDraw()
-//     {
-//         m_world.draw ();
-//     }
-
-//     void Playing::zoneSwitchUpdate(float dt)
-//     {
-//         m_mapGUI.update(m_player, m_notice);
-//         if (m_mapGUI.shouldExit())
-//         {
-//             if (m_mapGUI.getZoneID() != m_world.getZoneID())
-//             {
-//                 m_world.setZone(std::move(m_mapGUI.getZone()));
-//             }
-//             //get zone
-//             //set zone
-//             m_playerState = Player_State::Roaming;
-//         }
-//     }
-
-
-//     void Playing::zoneSwitchDraw()
-//     {
-//         m_mapGUI.draw();
-//     }
 }
 

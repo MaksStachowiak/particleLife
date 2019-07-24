@@ -7,8 +7,6 @@
 
 #include "PlayingState.h"
 
-// #include "Game/Equipment/Equipment_Data.h"
-
 namespace
 {
     void calculateFPS(bool debugFPS)
