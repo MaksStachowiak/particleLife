@@ -9,7 +9,7 @@ namespace Entities
     class Ball : public Entity
     {
         public:
-            Ball(sf::Vector2<double>, int, State::Playing*);
+            Ball(sf::Vector2<double>, int, sf::Color, State::Playing*);
 
             void input  (const sf::Event& e);
             void input  ();
@@ -20,7 +20,7 @@ namespace Entities
             sf::Vector2<double> m_position;
             sf::Vector2<double> m_velocity;
             int m_species;
+            sf::Color m_color;
             State::Playing* m_state;
-            sf::Color color;
     };
 }

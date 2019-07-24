@@ -37,7 +37,8 @@ namespace State
         private:
             void addBall(double, double);
             void populate(int);
-            void createSpecies(int);
+            void createSpecies();
+            interactionRules newInteraction();
 
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
             

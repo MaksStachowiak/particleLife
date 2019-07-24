@@ -9,16 +9,22 @@
 #include "PlayingState.h"
 #include "Physics.h"
 
+
 namespace Entities
 {
-    Ball::Ball(sf::Vector2<double> position, int species, State::Playing* state)
+    Ball::Ball(sf::Vector2<double> position, int species, sf::Color color, State::Playing* state)
     : Entity()
     , m_position (position)
     , m_species(species)
+    , m_color(color)
     , m_state(state)
     {
+        std::cout << static_cast<int>(m_state->speciesColors[0].r) << std::endl;
+        std::cout << static_cast<int>(m_state->speciesColors[0].g) << std::endl;
+        std::cout << static_cast<int>(m_state->speciesColors[0].b) << std::endl;
+        std::cout << static_cast<int>(m_state->speciesColors[0].a) << std::endl;
+        std::cout << species;
         m_velocity = sf::Vector2<double>(Random::randomDouble()-0.5,Random::randomDouble()-0.5);
-        color = Random::randomColor();
     }
 
     void Ball::input  (const sf::Event& e)
@@ -55,7 +61,7 @@ namespace Entities
     {
         // draw the ball
         sf::CircleShape circle(BALL_RADIUS);
-        circle.setFillColor(color);
+        circle.setFillColor(m_color);
         circle.setPosition(m_position.x-BALL_RADIUS, m_position.y-BALL_RADIUS);
         Display::draw(circle);
 

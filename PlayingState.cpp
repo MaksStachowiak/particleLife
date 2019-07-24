@@ -14,11 +14,12 @@ namespace State
 {
     Playing::Playing(Application& application)
     : StateBase     (application)
+    , speciesNumber     (0)
     , debugShowVelocity (false)
     , debugShowRadii    (false)
     {
-        createSpecies(5);
-        populate(500);
+        createSpecies();
+        populate(1);
         std::cout<<"Now playing"<<std::endl;
     }
 
@@ -77,21 +78,40 @@ namespace State
 
     void Playing::addBall(double x, double y)
     {
-        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
+        int species = Random::randomRange(0, speciesNumber-1);
+        m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), species, speciesColors[species], this)));
     }
 
     void Playing::populate(int numOfBalls)
     {
         for (int i = 0; i < numOfBalls; i++)
         {
-            double x = BALL_RADIUS + Random::randomDouble() * (Display::WIDTH - 2 * BALL_RADIUS);
-            double y = BALL_RADIUS + Random::randomDouble() * (Display::HEIGHT - 2 * BALL_RADIUS);
+            double x = BALL_RADIUS + Random::randomDouble() * (Display::WIDTH - BALL_DIAM);
+            double y = BALL_RADIUS + Random::randomDouble() * (Display::HEIGHT - BALL_DIAM);
             addBall(x, y);
         }
     }
 
-    void Playing::createSpecies(int num=1)
-    {}
+    void Playing::createSpecies()
+    {
+        speciesColors.push_back(Random::randomColor());
+        if (speciesNumber > 1)
+            for (int i = 0; i < speciesNumber; i++)
+                interactionCharacteristics[i].push_back(newInteraction());
+        interactionCharacteristics.push_back(std::vector<interactionRules>());
+        for (int i = 0; i < speciesNumber; i++)
+            interactionCharacteristics[speciesNumber-1].push_back(newInteraction());
+        speciesNumber++;        
+    }
+
+    interactionRules Playing::newInteraction()
+    {
+        auto i = interactionRules();
+        i.minRadius = BALL_RADIUS * (1 + 2 * Random::randomDouble());
+        i.maxRadius = i.minRadius + BALL_RADIUS * (1 + 2 * Random::randomDouble());
+        i.maxMagnitude = Random::randomDouble() - 1;
+        return i;
+    }
 
     void Playing::noticeBall(sf::Vector2<double> position, int spec)
     {
