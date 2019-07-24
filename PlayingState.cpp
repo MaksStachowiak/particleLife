@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Display.h"
 #include "Random.h"
+#include "Physics.h"
 
 #include "Entity.h"
 #include "Ball.h"
@@ -46,6 +47,7 @@ namespace State
             if (e.key.code == sf::Keyboard::F5)
             {
                 debugShowRadii = !debugShowRadii;
+                Physics::plot();
             }
         }
 
@@ -170,3 +172,4 @@ namespace State
 //         m_mapGUI.draw();
 //     }
 }
+

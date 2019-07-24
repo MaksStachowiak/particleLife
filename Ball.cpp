@@ -7,7 +7,7 @@
 #include <iostream>
 
 #include "PlayingState.h"
-#include "Maths.h"
+#include "Physics.h"
 
 namespace Entities
 {
@@ -40,7 +40,7 @@ namespace Entities
 
         for(int i = 0; i < m_state->ballPositions.size(); i++)
         {
-            m_velocity += Maths::getForce(m_state->ballPositions[i], m_position);
+            m_velocity += Physics::getForce(m_state->ballPositions[i], m_position);
         }
         dt *= 20;
         auto movement = m_velocity * dt;
