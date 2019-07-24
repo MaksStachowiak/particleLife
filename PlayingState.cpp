@@ -14,15 +14,13 @@ namespace State
 {
     Playing::Playing(Application& application)
     : StateBase     (application)
+    , debugShowVelocity (false)
+    , debugShowRadii    (false)
     // ,   m_world     (m_player)
     {
+        createSpecies(5);
+        populate(500);
         std::cout<<"Now playing"<<std::endl;
-        for (int i = 0; i < 200; i++)
-        {
-            double x = Random::randomDouble() * Display::WIDTH;
-            double y = Random::randomDouble() * Display::HEIGHT;
-            m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
-        }
     }
 
     void Playing::input(const sf::Event& e)
@@ -45,6 +43,10 @@ namespace State
             {
                 debugShowVelocity = !debugShowVelocity;
             }
+            if (e.key.code == sf::Keyboard::F5)
+            {
+                debugShowRadii = !debugShowRadii;
+            }
         }
 
         m_p_application->debugInput(e);
@@ -52,17 +54,15 @@ namespace State
 
     void Playing::input()
     {
-        positions.clear();
-        species.clear();
+        ballPositions.clear();
+        ballSpecies.clear();
 
         for(auto const& entity: m_entities)
             entity->input();
     }
 
-    void Playing::update(float dt)
+    void Playing::update(double dt)
     {
-        // m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(500, 300), 1, this)));
-
         for(auto const& entity: m_entities)
             entity->update(dt);
 
@@ -109,10 +109,23 @@ namespace State
         m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
     }
 
+    void Playing::populate(int numOfBalls)
+    {
+        for (int i = 0; i < numOfBalls; i++)
+        {
+            double x = BALL_RADIUS + Random::randomDouble() * (Display::WIDTH - 2 * BALL_RADIUS);
+            double y = BALL_RADIUS + Random::randomDouble() * (Display::HEIGHT - 2 * BALL_RADIUS);
+            m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), 1, this)));
+        }
+    }
+
+    void Playing::createSpecies(int num=1)
+    {}
+
     void Playing::noticeBall(sf::Vector2<double> position, int spec)
     {
-        positions.push_back(position);
-        species.push_back(spec);
+        ballPositions.push_back(position);
+        ballSpecies.push_back(spec);
     }
 
 //     void Playing::roamUpdate(float dt)

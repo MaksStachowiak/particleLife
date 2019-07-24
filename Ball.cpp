@@ -27,7 +27,7 @@ namespace Entities
     { 
         m_state->noticeBall(m_position, m_species);
     }
-    void Ball::update (float dt)
+    void Ball::update (double dt)
     {   
         if (m_position.x < 0)
             m_velocity.x -= m_position.x;
@@ -38,13 +38,13 @@ namespace Entities
         if (m_position.y > Display::HEIGHT)
             m_velocity.y -= m_position.y - Display::HEIGHT;
 
-        for(int i = 0; i < m_state->positions.size(); i++)
+        for(int i = 0; i < m_state->ballPositions.size(); i++)
         {
-            // std::cout << Maths::distance(m_state->positions[i], m_position)<<std::endl;
-            m_velocity += Maths::getForce(m_state->positions[i], m_position, BALL_RADIUS*5);
+            m_velocity += Maths::getForce(m_state->ballPositions[i], m_position);
         }
-
-        m_position += m_velocity;
+        dt *= 20;
+        auto movement = m_velocity * dt;
+        m_position += movement;
         // m_velocity *= 0.99;
     }
     void Ball::draw   ()
@@ -62,6 +62,17 @@ namespace Entities
             line[1] = sf::Vertex(sf::Vector2f(m_position) + sf::operator*(sf::Vector2f(m_velocity), 20.f));
             line[1].color  = sf::Color::Red;
             Display::draw(line);
+        }
+        if (m_state->debugShowRadii)
+        {
+            sf::CircleShape outline(30);
+
+            // set a 10-pixel wide orange outline
+            outline.setFillColor(sf::Color(0, 0, 0, 0));
+            outline.setOutlineThickness(1);
+            outline.setOutlineColor(sf::Color(150, 150, 150));
+            outline.setPosition(m_position.x-30, m_position.y-30);
+            Display::draw(outline);
         }
     }
 }

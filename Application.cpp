@@ -21,7 +21,7 @@ namespace
 
         if (printTimer.getElapsedTime().asSeconds() >= 1.0f)
         {
-            auto fps = (float)numFrames / timer.getElapsedTime().asSeconds();
+            auto fps = (double)numFrames / timer.getElapsedTime().asSeconds();
             printTimer.restart();
             if (debugFPS)
                 std::cout << fps << std::endl;

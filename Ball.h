@@ -13,7 +13,7 @@ namespace Entities
 
             void input  (const sf::Event& e);
             void input  ();
-            void update (float dt);
+            void update (double dt);
             void draw   ();
 
         private:

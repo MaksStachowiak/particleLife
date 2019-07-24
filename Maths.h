@@ -19,7 +19,7 @@ namespace Maths
 
     // repulsion increases hyperbolically with distances smaller than diameter (overlap)
     // attraction increases linearly towards maxAttractionPoint, then decreases linearly towards zero
-    sf::Vector2<double> getForce(sf::Vector2<double> a, sf::Vector2<double> b, double maxAttractionPoint)
+    sf::Vector2<double> getForce(sf::Vector2<double> a, sf::Vector2<double> b) //, interactionCharacteristics i)
     {
         double dist = distance(a, b);
 
