@@ -19,7 +19,11 @@ namespace State
     , debugShowRadii    (false)
     {
         createSpecies();
-        populate(1);
+        createSpecies();
+        createSpecies();
+        createSpecies();
+        createSpecies();
+        populate(500);
         std::cout<<"Now playing"<<std::endl;
     }
 
@@ -46,7 +50,7 @@ namespace State
             if (e.key.code == sf::Keyboard::F5)
             {
                 debugShowRadii = !debugShowRadii;
-                Physics::plot(); // for testing
+                // Physics::plot(); // for testing
             }
         }
 
@@ -94,22 +98,39 @@ namespace State
 
     void Playing::createSpecies()
     {
+        std::cout << "creating new species color" << std::endl;
         speciesColors.push_back(Random::randomColor());
-        if (speciesNumber > 1)
+        if (speciesNumber > 0)
             for (int i = 0; i < speciesNumber; i++)
+            {
+                std::cout << "adding new interactions to existing species " << i << std::endl;
                 interactionCharacteristics[i].push_back(newInteraction());
-        interactionCharacteristics.push_back(std::vector<interactionRules>());
-        for (int i = 0; i < speciesNumber; i++)
-            interactionCharacteristics[speciesNumber-1].push_back(newInteraction());
-        speciesNumber++;        
+            }
+        std::cout << "creating new interactions class" << std::endl;
+        interactionCharacteristics.push_back(std::vector<Physics::interactionRules>());
+        speciesNumber++;
+        for (int i = 0; i <= speciesNumber; i++)
+        {
+            std::cout << "adding new interaction " << i <<  " to last species " << speciesNumber - i << std::endl;
+            std::cout << interactionCharacteristics[speciesNumber-1].size() << std::endl;
+            Physics::interactionRules newRules = newInteraction();
+            std::cout << "newRules.maxMagnitude " << newRules.maxMagnitude << std::endl;
+            interactionCharacteristics[speciesNumber-1].push_back(newRules);
+            std::cout << interactionCharacteristics[speciesNumber-1].size() << std::endl;
+            std::cout << "added" << std::endl;
+            std::cout << interactionCharacteristics[speciesNumber-1][i].maxMagnitude << std::endl;
+        }
     }
 
-    interactionRules Playing::newInteraction()
+    Physics::interactionRules Playing::newInteraction()
     {
-        auto i = interactionRules();
-        i.minRadius = BALL_RADIUS * (1 + 2 * Random::randomDouble());
-        i.maxRadius = i.minRadius + BALL_RADIUS * (1 + 2 * Random::randomDouble());
-        i.maxMagnitude = Random::randomDouble() - 1;
+        Physics::interactionRules i = Physics::interactionRules();
+        i.minRadius = BALL_RADIUS * (1 + 3 * Random::randomDouble());
+        i.maxRadius = i.minRadius + BALL_RADIUS * (1 + 3 * Random::randomDouble());
+        i.maxMagnitude = Random::randomDouble() - 0.5;
+        std::cout << "new interaction with i.maxMagnitude " << i.maxMagnitude << std::endl;
+        std::cout << "new interaction with i.minRadius " << i.minRadius << std::endl;
+        std::cout << "new interaction with i.maxRadius " << i.maxRadius << std::endl;
         return i;
     }
 

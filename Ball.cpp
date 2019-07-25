@@ -19,11 +19,6 @@ namespace Entities
     , m_color(color)
     , m_state(state)
     {
-        std::cout << static_cast<int>(m_state->speciesColors[0].r) << std::endl;
-        std::cout << static_cast<int>(m_state->speciesColors[0].g) << std::endl;
-        std::cout << static_cast<int>(m_state->speciesColors[0].b) << std::endl;
-        std::cout << static_cast<int>(m_state->speciesColors[0].a) << std::endl;
-        std::cout << species;
         m_velocity = sf::Vector2<double>(Random::randomDouble()-0.5,Random::randomDouble()-0.5);
     }
 
@@ -35,22 +30,24 @@ namespace Entities
     }
     void Ball::update (double dt)
     {   
+        double bounce = 0.1;
         // bounce back from edges of screen
         if (m_position.x < 0)
-            m_velocity.x -= m_position.x;
+            m_velocity.x -= m_position.x*bounce;
         if (m_position.y < 0)
-            m_velocity.y -= m_position.y;
+            m_velocity.y -= m_position.y*bounce;
         if (m_position.x > Display::WIDTH)
-            m_velocity.x -= m_position.x - Display::WIDTH;
+            m_velocity.x -= (m_position.x - Display::WIDTH)*bounce;
         if (m_position.y > Display::HEIGHT)
-            m_velocity.y -= m_position.y - Display::HEIGHT;
+            m_velocity.y -= (m_position.y - Display::HEIGHT)*bounce;
 
         // calculate forces and update velocity
         for(int i = 0; i < m_state->ballPositions.size(); i++)
         {
-            m_velocity += Physics::getForce(m_state->ballPositions[i], m_position);
+            m_velocity += Physics::getForce(m_state->ballPositions[i], m_position,
+            m_state->interactionCharacteristics[m_species][m_state->ballSpecies[i]]);
         }
-        m_velocity *= 0.985; // friction
+        m_velocity *= 0.98; // friction
 
         // update position
         auto movement = m_velocity * (dt * 20);

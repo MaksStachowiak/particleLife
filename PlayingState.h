@@ -4,9 +4,7 @@
 
 #include "StateBase.h"
 #include "Entity.h"
-
-struct speciesCharacteristics {int id; sf::Color color;};
-struct interactionRules {double minRadius, maxRadius, maxMagnitude;};
+#include "Physics.h"
 
 namespace State
 {
@@ -29,7 +27,7 @@ namespace State
             std::vector<sf::Color> speciesColors;
 
             //for each species holds vector of their att/repulsion characteristics towards all other species
-            std::vector<std::vector<interactionRules>> interactionCharacteristics;
+            std::vector<std::vector<Physics::interactionRules>> interactionCharacteristics;
 
             bool debugShowVelocity;
             bool debugShowRadii;
@@ -38,10 +36,9 @@ namespace State
             void addBall(double, double);
             void populate(int);
             void createSpecies();
-            interactionRules newInteraction();
+            Physics::interactionRules newInteraction();
 
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
-            
     };
 }
 

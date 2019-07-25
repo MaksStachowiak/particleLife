@@ -7,11 +7,11 @@
 
 namespace Physics
 {
-    sf::Vector2<double> getForce(sf::Vector2<double> a, sf::Vector2<double> b) //, interactionRulse i)
+    sf::Vector2<double> getForce(sf::Vector2<double> a, sf::Vector2<double> b, interactionRules i)
     {
-        double min_dist = BALL_RADIUS * 2;
-        double max_dist = BALL_RADIUS * 8;
-        double magnitude = -0.5;
+        double min_dist = i.minRadius;
+        double max_dist = i.maxRadius;
+        double magnitude = i.maxMagnitude;
 
         double slope = 2*magnitude/(max_dist - min_dist);
         double center = (max_dist + min_dist)/2;
@@ -40,12 +40,12 @@ namespace Physics
         return sf::Vector2<double>(0, 0);
     }
 
-    void plot()
+    void plot(interactionRules iR)
     {
         for (int i = 1; i<1000; i++)
         {
             double increment = i*BALL_RADIUS*0.02;
-            std::cout << increment << " " << getForce(sf::Vector2<double>(0, 0), sf::Vector2<double>(increment, 0)).x << std::endl;
+            std::cout << increment << " " << getForce(sf::Vector2<double>(0, 0), sf::Vector2<double>(increment, 0), iR).x << std::endl;
         }
     }
 }

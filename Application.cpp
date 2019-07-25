@@ -34,7 +34,7 @@ Application::Application()
 : debugMousePos (false)
 , debugFPS      (false)
 {
-    Display ::init  ("particleLife 0.3");
+    Display ::init  ("particleLife 0.4");
     Random  ::init  ();
 
     // m_music.setLoop(true);
