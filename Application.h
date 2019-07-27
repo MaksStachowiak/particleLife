@@ -8,9 +8,7 @@
 
 // #include "Resource_Managers/Resource_Holder.h"
 #include "StateBase.h"
-
-const double BALL_RADIUS = 5;
-const double BALL_DIAM   = 2 * BALL_RADIUS;
+#include "Config.h"
 
 class Application
 {

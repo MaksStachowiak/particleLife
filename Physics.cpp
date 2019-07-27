@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Maths.h"
+#include "Random.h"
 #include "Application.h"
 
 namespace Physics
@@ -38,6 +39,15 @@ namespace Physics
             return result;
         }
         return sf::Vector2<double>(0, 0);
+    }
+    
+    Physics::interactionRules newInteraction()
+    {
+        Physics::interactionRules iR = Physics::interactionRules();
+        iR.minRadius = BALL_RADIUS * (1 + 5 * Random::randomDouble());
+        iR.maxRadius = iR.minRadius + BALL_RADIUS * (1 + 10 * Random::randomDouble());
+        iR.maxMagnitude = (Random::randomDouble() - 0.5) * 0.8;
+        return iR;
     }
 
     void plot(interactionRules iR)

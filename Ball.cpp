@@ -47,7 +47,7 @@ namespace Entities
             m_velocity += Physics::getForce(m_state->ballPositions[i], m_position,
             m_state->interactionCharacteristics[m_species][m_state->ballSpecies[i]]);
         }
-        m_velocity *= 0.98; // friction
+        m_velocity *= 0.985; // friction
 
         // update position
         auto movement = m_velocity * (dt * 20);

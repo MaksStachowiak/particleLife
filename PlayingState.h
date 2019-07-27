@@ -36,7 +36,6 @@ namespace State
             void addBall(double, double);
             void populate(int);
             void createSpecies();
-            Physics::interactionRules newInteraction();
 
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
     };

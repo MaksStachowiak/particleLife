@@ -9,5 +9,6 @@ namespace Physics
     struct interactionRules {double minRadius, maxRadius, maxMagnitude;};
 
     sf::Vector2<double> getForce(sf::Vector2<double>, sf::Vector2<double>, interactionRules);
+    interactionRules newInteraction();
     void plot();
 }
