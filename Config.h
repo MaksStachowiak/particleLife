@@ -3,8 +3,8 @@
 const double BALL_RADIUS = 4;
 const double BALL_DIAM   = 2 * BALL_RADIUS;
 
-const int NUMBER_OF_SPECIES = 5;
-const int STARTING_POPULATION = 300;
+const int NUMBER_OF_SPECIES = 1;
+const int STARTING_POPULATION = 1;
 
 namespace Display
 {

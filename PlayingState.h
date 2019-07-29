@@ -31,6 +31,7 @@ namespace State
 
             bool debugShowVelocity;
             bool debugShowRadii;
+            bool debugSpawnBalls;
 
         private:
             void addBall(double, double);

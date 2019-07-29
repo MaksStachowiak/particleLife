@@ -17,6 +17,7 @@ namespace State
     , speciesNumber     (0)
     , debugShowVelocity (false)
     , debugShowRadii    (false)
+    , debugSpawnBalls   (false)
     {
         for (int i = 0; i < NUMBER_OF_SPECIES; i++)
             createSpecies();
@@ -26,6 +27,13 @@ namespace State
 
     void Playing::input(const sf::Event& e)
     {
+        if (e.type == sf::Event::KeyPressed)
+        {
+            if (e.key.code == sf::Keyboard::F6)
+            {
+                debugSpawnBalls = true;
+            }
+        }
         if (e.type == sf::Event::MouseButtonPressed)
         {
             if (e.mouseButton.button == sf::Mouse::Left)
@@ -49,7 +57,12 @@ namespace State
                 debugShowRadii = !debugShowRadii;
                 // Physics::plot(); // for testing
             }
+            if (e.key.code == sf::Keyboard::F6)
+            {
+                debugSpawnBalls = false;
+            }
         }
+
 
         m_p_application->debugInput(e);
     }
@@ -67,6 +80,10 @@ namespace State
     {
         for(auto const& entity: m_entities)
             entity->update(dt);
+
+        if (debugSpawnBalls)
+            addBall( static_cast <double> (sf::Mouse::getPosition(Display::get()).x - BALL_RADIUS),
+                     static_cast <double> (sf::Mouse::getPosition(Display::get()).y - BALL_RADIUS) );
     }
 
     void Playing::draw()
