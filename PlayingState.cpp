@@ -119,4 +119,3 @@ namespace State
         ballSpecies.push_back(spec);
     }
 }
-

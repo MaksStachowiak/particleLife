@@ -10,32 +10,27 @@ namespace Physics
 {
     sf::Vector2<double> getForce(sf::Vector2<double> a, sf::Vector2<double> b, interactionRules i)
     {
-        double min_dist = i.minRadius;
-        double max_dist = i.maxRadius;
-        double magnitude = i.maxMagnitude;
-
-        double slope = 2*magnitude/(max_dist - min_dist);
-        double center = (max_dist + min_dist)/2;
-
-        double dist = Maths::distance(a, b);
+        double slope  = 2 * i.maxMagnitude / (i.maxRadius - i.minRadius);
+        double center = (i.maxRadius + i.minRadius) / 2;
+        double dist   = Maths::distance(a, b);
 
         //if interacting with self then ignore
         if (dist < 0.000001)
             return sf::Vector2<double>(0, 0);
         
-        //get unit vector in direction of particle
+        //get unit vector in the direction of particle
         auto result = Maths::normalise(b-a, dist);
 
         // repulsion increases hyperbolically with distances smaller than diameter (overlap)
-        if (dist < min_dist)
+        if (dist < i.minRadius)
         {
             result *= BALL_DIAM/(dist+1)-1;
             return result;
         }
-        // attraction/repulsion increases linearly towards maxAttractionPoint, then decreases linearly towards zero
-        else if (dist < max_dist)
+        // interaction force increases linearly towards maxMagnitude, then decreases linearly towards zero
+        else if (dist < i.maxRadius)
         {
-            result *= magnitude - slope * fabs(dist - center);
+            result *= i.maxMagnitude - slope * fabs(dist - center);
             return result;
         }
         return sf::Vector2<double>(0, 0);
@@ -44,9 +39,9 @@ namespace Physics
     Physics::interactionRules newInteraction()
     {
         Physics::interactionRules iR = Physics::interactionRules();
-        iR.minRadius = BALL_RADIUS * (1 + 5 * Random::randomDouble());
-        iR.maxRadius = iR.minRadius + BALL_RADIUS * (1 + 10 * Random::randomDouble());
-        iR.maxMagnitude = (Random::randomDouble() - 0.5) * 0.8;
+        iR.minRadius = BALL_RADIUS * (1 + MIN_RADIUS_MULTIPLIER * Random::randomDouble());
+        iR.maxRadius = iR.minRadius + BALL_RADIUS * (1 + MAX_RADIUS_MULTIPLIER * Random::randomDouble());
+        iR.maxMagnitude = (Random::randomDouble() - 0.5) * INTERACTION_FORCE_MULTIPLIER;
         return iR;
     }
 

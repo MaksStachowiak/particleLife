@@ -17,9 +17,9 @@ namespace Entities
             void draw   ();
 
         private:
+            int m_species;
             sf::Vector2<double> m_position;
             sf::Vector2<double> m_velocity;
-            int m_species;
             sf::Color m_color;
             State::Playing* m_state;
     };
