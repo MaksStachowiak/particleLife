@@ -30,16 +30,15 @@ namespace Entities
     }
     void Ball::update (double dt)
     {   
-        double bounce = 0.1;
         // bounce back from edges of screen
         if (m_position.x < 0)
-            m_velocity.x -= m_position.x*bounce;
+            m_velocity.x -= m_position.x*Physics::EDGE_BOUNCE;
         if (m_position.y < 0)
-            m_velocity.y -= m_position.y*bounce;
+            m_velocity.y -= m_position.y*Physics::EDGE_BOUNCE;
         if (m_position.x > Display::WIDTH)
-            m_velocity.x -= (m_position.x - Display::WIDTH)*bounce;
+            m_velocity.x -= (m_position.x - Display::WIDTH)*Physics::EDGE_BOUNCE;
         if (m_position.y > Display::HEIGHT)
-            m_velocity.y -= (m_position.y - Display::HEIGHT)*bounce;
+            m_velocity.y -= (m_position.y - Display::HEIGHT)*Physics::EDGE_BOUNCE;
 
         // calculate forces and update velocity
         for(int i = 0; i < m_state->ballPositions.size(); i++)
@@ -47,7 +46,7 @@ namespace Entities
             m_velocity += Physics::getForce(m_state->ballPositions[i], m_position,
             m_state->interactionCharacteristics[m_species][m_state->ballSpecies[i]]);
         }
-        m_velocity *= 0.985; // friction
+        m_velocity *= Physics::FRICTION;
 
         // update position
         auto movement = m_velocity * (dt * 20);

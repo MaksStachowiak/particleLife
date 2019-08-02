@@ -14,17 +14,20 @@ namespace Physics
         double center = (i.maxRadius + i.minRadius) / 2;
         double dist   = Maths::distance(a, b);
 
-        //if interacting with self then ignore
+        // if interacting with self then ignore
         if (dist < 0.000001)
             return sf::Vector2<double>(0, 0);
         
-        //get unit vector in the direction of particle
+        // else
+        // get unit vector in the direction of particle
         auto result = Maths::normalise(b-a, dist);
 
-        // repulsion increases hyperbolically with distances smaller than diameter (overlap)
+        // repulsion increases hyperbolically with distances smaller than minRadius
         if (dist < i.minRadius)
         {
-            result *= BALL_DIAM/(dist+1)-1;
+            result *= OVERLAP_REPULSION_MULTIPLIER * BALL_DIAM *
+                      (1/(dist+1) - 1/(i.minRadius+1)) *
+                      (1 + 1/(i.minRadius+1));
             return result;
         }
         // interaction force increases linearly towards maxMagnitude, then decreases linearly towards zero
@@ -39,7 +42,7 @@ namespace Physics
     Physics::interactionRules newInteraction()
     {
         Physics::interactionRules iR = Physics::interactionRules();
-        iR.minRadius = BALL_RADIUS * (1 + MIN_RADIUS_MULTIPLIER * Random::randomDouble());
+        iR.minRadius = BALL_DIAM * (1 + MIN_RADIUS_MULTIPLIER * Random::randomDouble());
         iR.maxRadius = iR.minRadius + BALL_RADIUS * (1 + MAX_RADIUS_MULTIPLIER * Random::randomDouble());
         iR.maxMagnitude = (Random::randomDouble() - 0.5) * INTERACTION_FORCE_MULTIPLIER;
         return iR;
