@@ -33,6 +33,8 @@ namespace State
             bool debugShowRadii;
             bool debugSpawnBalls;
 
+            int speciesSelection;
+
         private:
             void addBall(double, double);
             void populate(int);

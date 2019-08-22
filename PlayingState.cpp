@@ -15,6 +15,7 @@ namespace State
     Playing::Playing(Application& application)
     : StateBase     (application)
     , speciesNumber     (0)
+    , speciesSelection  (-1)
     , debugShowVelocity (false)
     , debugShowRadii    (false)
     , debugSpawnBalls   (false)
@@ -61,6 +62,13 @@ namespace State
             {
                 debugSpawnBalls = false;
             }
+            if (e.key.code == sf::Keyboard::F7)
+            {
+                if (speciesSelection < speciesNumber)
+                    speciesSelection++;
+                else
+                    speciesSelection = -1;
+            }
         }
 
 
@@ -92,11 +100,22 @@ namespace State
         {
             entity->draw();
         }
+
+        if (speciesSelection >= 0)
+        {
+            sf::RectangleShape rectangle(sf::Vector2f(Display::WIDTH, 5));
+            rectangle.setFillColor(speciesColors[speciesSelection]);
+            rectangle.setPosition(0, 0);
+            Display::draw(rectangle);
+        }
+ 
     }
 
     void Playing::addBall(double x, double y)
     {
         int species = Random::randomRange(0, speciesNumber-1);
+        if (speciesSelection >= 0)
+            species = speciesSelection;
         m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), species, speciesColors[species], this)));
     }
 
@@ -116,18 +135,13 @@ namespace State
         // add new interaction to all existing species'
         if (speciesNumber > 0)
             for (auto&& i : interactionCharacteristics)
-            {
                 i.push_back(Physics::newInteraction());
-            }
         // create new species
         interactionCharacteristics.push_back(std::vector<Physics::interactionRules>());
         speciesNumber++;
         // for every species create interactions between new and existing
         for (auto i : interactionCharacteristics)
-        {
-            Physics::interactionRules newRules = Physics::newInteraction();
-            interactionCharacteristics[speciesNumber-1].push_back(newRules);
-        }
+            interactionCharacteristics[speciesNumber-1].push_back(Physics::newInteraction());
     }
 
     void Playing::noticeBall(sf::Vector2<double> position, int spec)

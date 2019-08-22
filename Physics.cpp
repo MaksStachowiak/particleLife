@@ -43,7 +43,7 @@ namespace Physics
     {
         Physics::interactionRules iR = Physics::interactionRules();
         iR.minRadius = BALL_DIAM * (1 + MIN_RADIUS_MULTIPLIER * Random::randomDouble());
-        iR.maxRadius = iR.minRadius + BALL_RADIUS * (1 + MAX_RADIUS_MULTIPLIER * Random::randomDouble());
+        iR.maxRadius = iR.minRadius + BALL_DIAM * (1 + MAX_RADIUS_MULTIPLIER * Random::randomDouble());
         iR.maxMagnitude = (Random::randomDouble() - 0.5) * INTERACTION_FORCE_MULTIPLIER;
         return iR;
     }
