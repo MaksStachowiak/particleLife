@@ -17,6 +17,7 @@ namespace Entities
             void draw   ();
 
         private:
+            sf::CircleShape interactionRange(int, int);
             int m_species;
             sf::Vector2<double> m_position;
             sf::Vector2<double> m_velocity;

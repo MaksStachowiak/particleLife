@@ -74,12 +74,19 @@ namespace Entities
 
         if (m_state->debugShowRadii)
         {
-            sf::CircleShape outline(BALL_RADIUS*8);
-            outline.setFillColor(sf::Color(0, 0, 0, 0));
-            outline.setOutlineThickness(1);
-            outline.setOutlineColor(sf::Color(150, 150, 150));
-            outline.setPosition(m_position.x-BALL_RADIUS*8, m_position.y-BALL_RADIUS*8);
-            Display::draw(outline);
+            for(int i=0; i<m_state->interactionCharacteristics.size(); i++)
+                Display::draw(interactionRange(m_species, i));
         }
+    }
+
+    sf::CircleShape Ball::interactionRange(int a, int b)
+    {
+        double r = m_state->interactionCharacteristics[a][b].maxRadius;
+        sf::CircleShape outline(r);
+        outline.setFillColor(sf::Color(0, 0, 0, 0));
+        outline.setOutlineThickness(1);
+        outline.setOutlineColor(m_state->speciesColors[b]);
+        outline.setPosition(m_position.x-r, m_position.y-r);
+        return outline;
     }
 }

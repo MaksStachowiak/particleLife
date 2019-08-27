@@ -25,6 +25,7 @@ namespace State
 
             std::vector<sf::Vector2<double>> ballPositions;
             std::vector<int> ballSpecies;
+            std::vector<sf::Color> speciesColors;
 
             //for each species holds vector of their att/repulsion characteristics towards all other species
             std::vector<std::vector<Physics::interactionRules>> interactionCharacteristics;
@@ -45,7 +46,6 @@ namespace State
             int speciesSelection;
 
             sf::Font m_font;
-            std::vector<sf::Color> speciesColors;
 
             std::list<std::unique_ptr<Entities::Message>> m_messages;
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
