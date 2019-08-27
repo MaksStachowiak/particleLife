@@ -24,4 +24,7 @@ namespace Display
     void pollEvents(State::StateBase& gameState);
 
     const sf::RenderWindow& get();
+
+    sf::Font* getFont();
+
 }

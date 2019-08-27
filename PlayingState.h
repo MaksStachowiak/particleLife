@@ -1,9 +1,11 @@
 #pragma once
 
 #include <functional>
+#include <list>
 
 #include "StateBase.h"
 #include "Entity.h"
+#include "Message.h"
 #include "Physics.h"
 
 namespace State
@@ -17,30 +19,37 @@ namespace State
             void input      ();
             void update     (double dt);
             void draw       ();
+
             void noticeBall (sf::Vector2<double>, int);
+            void noticeMessageDeath();
 
             std::vector<sf::Vector2<double>> ballPositions;
             std::vector<int> ballSpecies;
 
-            int speciesNumber;
-
-            std::vector<sf::Color> speciesColors;
-
             //for each species holds vector of their att/repulsion characteristics towards all other species
             std::vector<std::vector<Physics::interactionRules>> interactionCharacteristics;
+
+            int messagesToDelete;
 
             bool debugShowVelocity;
             bool debugShowRadii;
             bool debugSpawnBalls;
 
-            int speciesSelection;
-
         private:
+            void addMessage(std::string);
             void addBall(double, double);
             void populate(int);
             void createSpecies();
 
+            int speciesNumber;
+            int speciesSelection;
+
+            sf::Font m_font;
+            std::vector<sf::Color> speciesColors;
+
+            std::list<std::unique_ptr<Entities::Message>> m_messages;
             std::vector<std::unique_ptr<Entities::Entity>> m_entities;
+
     };
 }
 

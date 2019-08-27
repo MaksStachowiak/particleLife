@@ -7,6 +7,7 @@ namespace Display
     namespace
     {
         sf::RenderWindow window;
+        sf::Font font;
         // sf::Image icon;
 
         void checkForClose(const sf::Event& e)
@@ -24,6 +25,7 @@ namespace Display
                        name,
                        sf::Style::Close);
         window.setVerticalSyncEnabled(true);
+        font.loadFromFile("arial.ttf");
     }
 
     bool isOpen()
@@ -59,6 +61,11 @@ namespace Display
     const sf::RenderWindow& get()
     {
         return window;
+    }
+
+    sf::Font* getFont()
+    {
+        return &font;
     }
 
 }
