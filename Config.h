@@ -21,8 +21,9 @@ namespace Physics
 
     const double INTERACTION_FORCE_MULTIPLIER = 0.5;
  
-    const double MIN_RADIUS_MULTIPLIER = 1; // 1 = one extra diameter of separation; makes things more dynamic
-    const double MAX_RADIUS_MULTIPLIER = 4;
+    // 1 = one extra particle diameter of separation;
+    const double MIN_RADIUS_MULTIPLIER = 1; // higher values make things more dynamic
+    const double MAX_RADIUS_MULTIPLIER = 4; // higher values allow formation of bigger structures
 
     const double FRICTION = 0.975;
     const double EDGE_BOUNCE = 0.3;

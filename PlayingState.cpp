@@ -169,6 +169,16 @@ namespace State
             interactionCharacteristics[speciesNumber-1].push_back(Physics::newInteraction());
     }
 
+    int Playing::getSpeciesNumber()
+    {
+        return speciesNumber;
+    }
+    
+    int Playing::getSpeciesSelection()
+    {
+        return speciesSelection;
+    }
+
     void Playing::noticeBall(sf::Vector2<double> position, int spec)
     {
         ballPositions.push_back(position);

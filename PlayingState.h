@@ -23,6 +23,9 @@ namespace State
             void noticeBall (sf::Vector2<double>, int);
             void noticeMessageDeath();
 
+            int getSpeciesNumber();
+            int getSpeciesSelection();
+
             std::vector<sf::Vector2<double>> ballPositions;
             std::vector<int> ballSpecies;
             std::vector<sf::Color> speciesColors;
