@@ -6,6 +6,7 @@
 #include "Random.h"
 
 #include "PlayingState.h"
+#include "MenuState.h"
 
 namespace
 {
@@ -101,4 +102,21 @@ void Application::pushState(std::unique_ptr<State::StateBase> state)
 void Application::popState()
 {
     m_states.pop();
+}
+
+void Application::openMenu(std::vector<std::vector<Physics::interactionRules>> rules, std::vector<sf::Color> colors)
+{
+    pushState(std::make_unique<State::Menu>(*this, rules, colors));
+}
+
+void Application::closeMenu()
+{
+    popState();
+}
+
+void Application::newSimulation(std::vector<std::vector<Physics::interactionRules>> rules, std::vector<sf::Color> colors)
+{
+    popState(); // close menu
+    popState(); // close last simulation
+    pushState(std::make_unique<State::Playing>(*this, rules, colors)); // run new simulation with the same rules
 }

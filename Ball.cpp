@@ -75,15 +75,10 @@ namespace Entities
         if (m_state->debugShowRadii)
         {
             if (m_state->getSpeciesSelection() == -1)
-            {
                 for(int i=0; i<m_state->interactionCharacteristics.size(); i++)
                     Display::draw(interactionRange(m_species, i));
-            }
             else
-            {
                 Display::draw(interactionRange(m_species, m_state->getSpeciesSelection()));
-            }
-            
         }
     }
 

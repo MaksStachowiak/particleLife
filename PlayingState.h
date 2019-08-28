@@ -14,6 +14,7 @@ namespace State
     {
         public:
             Playing (Application& application);
+            Playing (Application& application, std::vector<std::vector<Physics::interactionRules>>, std::vector<sf::Color>);
 
             void input      (const sf::Event& e);
             void input      ();

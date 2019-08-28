@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 
 void errorMessage(const std::string& message, const std::string& error)

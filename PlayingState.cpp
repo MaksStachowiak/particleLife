@@ -31,6 +31,25 @@ namespace State
         m_messages.clear();
         addMessage("Starting simulation with " + std::to_string(STARTING_POPULATION) + " particles");
     }
+    
+    Playing::Playing(Application& application, std::vector<std::vector<Physics::interactionRules>> rules, std::vector<sf::Color> colors)
+    : StateBase     (application)
+    , speciesNumber     (rules.size())
+    , speciesSelection  (-1)
+    , messagesToDelete  (0)
+    , debugShowVelocity (false)
+    , debugShowRadii    (false)
+    , debugSpawnBalls   (false)
+    , interactionCharacteristics (rules)
+    , speciesColors     (colors)
+    {
+        populate(STARTING_POPULATION);
+
+        m_font.loadFromFile("arial.ttf"); 
+
+        m_messages.clear();
+        addMessage("Starting simulation with " + std::to_string(STARTING_POPULATION) + " particles");
+    }
 
     void Playing::input(const sf::Event& e)
     {
@@ -74,18 +93,22 @@ namespace State
             {
                 debugSpawnBalls = false;
             }
-            if (e.key.code == sf::Keyboard::F7)
+            if (e.key.code == sf::Keyboard::F7) 
             {
-                if (speciesSelection < speciesNumber)
+                if (speciesSelection + 1 < speciesNumber)
                 {
                     speciesSelection++;
-                    addMessage("New particles will be of type " + std::to_string(speciesSelection));
+                    addMessage("Selected particle type " + std::to_string(speciesSelection));
                 }
                 else
                 {
                     speciesSelection = -1;
-                    addMessage("New particles will be of random type");
+                    addMessage("Selected all particle types");
                 }
+            }
+            if (e.key.code == sf::Keyboard::Escape)
+            {
+                m_p_application->openMenu(interactionCharacteristics, speciesColors);
             }
         }
 
@@ -141,7 +164,7 @@ namespace State
         if (speciesSelection >= 0)
             species = speciesSelection;
         m_entities.push_back(std::move(std::make_unique<Entities::Ball>(sf::Vector2<double>(x, y), species, speciesColors[species], this)));
-        addMessage("New particle of species " + std::to_string(species));// + " at " + std::to_string(static_cast<int>(x)) + ", " + std::to_string(static_cast<int>(y)));
+        addMessage("New particle of species " + std::to_string(species));
     }
 
     void Playing::populate(int numOfBalls)
