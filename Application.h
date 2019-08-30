@@ -23,7 +23,7 @@ class Application
 
         void openMenu(std::vector<std::vector<Physics::interactionRules>>, std::vector<sf::Color>);
         void closeMenu();
-        void newSimulation(std::vector<std::vector<Physics::interactionRules>>, std::vector<sf::Color>);
+        void newSimulation(std::vector<std::vector<Physics::interactionRules>> = {}, std::vector<sf::Color> = {});
 
         void debugInput(const sf::Event& e);
         void debugUpdate();

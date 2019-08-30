@@ -114,9 +114,12 @@ void Application::closeMenu()
     popState();
 }
 
-void Application::newSimulation(std::vector<std::vector<Physics::interactionRules>> rules, std::vector<sf::Color> colors)
+void Application::newSimulation(std::vector<std::vector<Physics::interactionRules>> rules , std::vector<sf::Color> colors)
 {
     popState(); // close menu
     popState(); // close last simulation
-    pushState(std::make_unique<State::Playing>(*this, rules, colors)); // run new simulation with the same rules
+    if(rules.size() > 0)
+        pushState(std::make_unique<State::Playing>(*this, rules, colors)); // run new simulation with the same rules
+    else
+        pushState(std::make_unique<State::Playing>(*this)); // run new simulation with new rules
 }
