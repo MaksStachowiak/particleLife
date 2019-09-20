@@ -21,3 +21,9 @@ Uses the SFML graphisc library:
 libsfml-dev:amd64/disco 2.5.1+dfsg-1  
 
 Will probably compile with -std=c++13 if you change the makefile  
+
+# Usage
+
+Use mouse
+F1 through F8 do things
+ESC to close
